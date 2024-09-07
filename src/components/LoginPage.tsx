@@ -1,77 +1,74 @@
 import React, { useState } from 'react';
-import axios from '../utils/axios'; // Use the custom axios instance
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../utils/axios';
 
 interface LoginPageProps {
   onLogin: (token: string) => void;
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/auth/login', { email, password });
+      const response = await axiosInstance.post('/api/auth/login', credentials);
       const token = response.data.access_token;
-      onLogin(token);
-      navigate('/');
-    } catch (error) {
-      console.error('Login error:', error);
+      if (token) {
+        localStorage.setItem('token', token);
+        onLogin(token);
+        navigate('/');
+      } else {
+        setError('Login failed: No token received');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
       setError('Invalid email or password');
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10">
-      <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-8">
-        Sign in to your account
-      </h2>
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        <div className="rounded-md shadow-sm -space-y-px">
-          <div>
-            <label htmlFor="email-address" className="sr-only">Email address</label>
+      <h2 className="text-2xl font-bold mb-4 text-center text-foreground">Login</h2>
+      {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+      <form onSubmit={handleSubmit} className="bg-card dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="mb-4">
+          <div className="relative">
             <input
-              id="email-address"
-              name="email"
               type="email"
-              autoComplete="email"
+              name="email"
+              value={credentials.email}
+              onChange={handleChange}
+              placeholder="Email"
               required
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 bg-input-background dark:bg-gray-700 text-foreground dark:text-gray-200 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-primary dark:focus:border-primary transition-colors placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
-          <div>
-            <label htmlFor="password" className="sr-only">Password</label>
+          <div className="relative mt-4">
             <input
-              id="password"
-              name="password"
               type="password"
-              autoComplete="current-password"
-              required
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              name="password"
+              value={credentials.password}
+              onChange={handleChange}
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full p-2 bg-input-background dark:bg-gray-700 text-foreground dark:text-gray-200 border-b border-gray-300 dark:border-gray-600 focus:outline-none focus:border-primary dark:focus:border-primary transition-colors placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
         </div>
-
-        {error && <p className="mt-2 text-center text-sm text-red-600">{error}</p>}
-
-        <div>
-          <button
-            type="submit"
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Sign in
-          </button>
-        </div>
+        <button 
+          type="submit" 
+          className="w-full bg-primary text-primary-foreground p-2 rounded hover:bg-primary/90 transition-colors"
+        >
+          Login
+        </button>
       </form>
     </div>
   );

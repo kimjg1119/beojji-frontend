@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axios';
+import { showErrorToast } from '../utils/toastUtils';
 
 interface Submission {
   id: number;
@@ -24,7 +25,7 @@ const MySubmissionsPage: React.FC = () => {
         setLoading(false);
       } catch (err) {
         console.error('Error fetching submissions:', err);
-        setError('Failed to load submissions. Please try again later.');
+        showErrorToast('Failed to load submissions. Please try again later.');
         setLoading(false);
       }
     };
