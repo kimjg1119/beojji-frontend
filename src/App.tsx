@@ -9,7 +9,7 @@ import RegisterPage from './components/RegisterPage';
 import RegisterSuccessPage from './components/RegisterSuccessPage';
 import LoginPage from './components/LoginPage';
 import MyStatus from './components/MyStatus';
-import AdminPage from './components/AdminPage';
+import AdminPage from './components/admin/AdminPage';
 import ProblemPage from './components/ProblemPage';
 import SubmissionPage from './components/SubmissionPage';
 import MySubmissionsPage from './components/MySubmissionsPage';

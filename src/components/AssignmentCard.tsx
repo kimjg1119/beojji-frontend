@@ -21,7 +21,6 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({
   description,
   opened,
   dueDate,
-  classTitle,
   link
 }) => {
   return (

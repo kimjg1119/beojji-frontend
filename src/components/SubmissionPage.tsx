@@ -51,11 +51,11 @@ const SubmissionPage: React.FC = () => {
       return;
     }
     try {
-      await axiosInstance.post('/api/submissions', {
+      const response = await axiosInstance.post('/api/submissions', {
         classProblemId: classProblem.id,
         code,
       });
-      showSuccessToast('Submission successful!');
+      showSuccessToast(`Submission successful! Score: ${response.data.score}`);
       navigate(`/problem/${classProblem.problemId}`);
     } catch (err) {
       console.error('Error submitting code:', err);

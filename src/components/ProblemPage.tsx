@@ -24,10 +24,17 @@ interface ClassProblem {
   };
 }
 
+const SpinningLoader: React.FC = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  </div>
+);
+
 const ProblemPage: React.FC = () => {
   const { classProblemId } = useParams<{ classProblemId: string }>();
   const [classProblem, setClassProblem] = useState<ClassProblem | null>(null);
   const [loading, setLoading] = useState(true);
+  const [readmeLoading, setReadmeLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,10 +43,22 @@ const ProblemPage: React.FC = () => {
         const response = await axiosInstance.get(`/api/problem/class/${classProblemId}`);
         setClassProblem(response.data);
         setLoading(false);
+        
+        // Start loading README after main content is loaded
+        if (response.data.problem.readme) {
+          setReadmeLoading(true);
+          // Simulating a delay for README loading
+          setTimeout(() => {
+            setReadmeLoading(false);
+          }, 1000);
+        } else {
+          setReadmeLoading(false);
+        }
       } catch (err) {
         console.error('Error fetching class problem:', err);
         showErrorToast('Failed to load problem. Please try again later.');
         setLoading(false);
+        setReadmeLoading(false);
       }
     };
 
@@ -54,7 +73,12 @@ const ProblemPage: React.FC = () => {
     );
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div className="max-w-4xl mx-auto mt-10">
+      <SpinningLoader />
+      <p className="text-center mt-4">Loading problem...</p>
+    </div>
+  );
   if (error) return <div className="text-red-500">{error}</div>;
   if (!classProblem) return <div>Problem not found</div>;
 
@@ -62,10 +86,11 @@ const ProblemPage: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto mt-10">
+      {/* Upper part */}
       <div className="flex flex-col mb-6">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-3xl font-bold mr-2">{problem.title}</h1>
+            <h1 className="text-3xl font-bold mr-2 dark:text-white">{problem.title}</h1>
             {problem.link && (
               <a 
                 href={problem.link}
@@ -91,31 +116,37 @@ const ProblemPage: React.FC = () => {
         </span>
       </div>
       <p className="text-gray-700 dark:text-gray-300 mb-6">{problem.description}</p>
+
+      {/* README part */}
       {problem.readme && (
         <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">README</h2>
-          <ReactMarkdown 
-            className="prose dark:prose-invert max-w-none"
-            remarkPlugins={[remarkGfm]}
-            components={{
-              code({ node, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || '');
-                return match ? (
-                  <CodeBlock
-                    language={match[1]}
-                    value={String(children).replace(/\n$/, '')}
-                    {...props}
-                  />
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
-              },
-            }}
-          >
-            {problem.readme}
-          </ReactMarkdown>
+          {readmeLoading ? (
+            <SpinningLoader />
+          ) : (
+            <ReactMarkdown 
+              className="prose dark:prose-invert max-w-none"
+              remarkPlugins={[remarkGfm]}
+              components={{
+                code({ node, className, children, ...props }) {
+                  const match = /language-(\w+)/.exec(className || '');
+                  return match ? (
+                    <CodeBlock
+                      language={match[1]}
+                      value={String(children).replace(/\n$/, '')}
+                      {...props}
+                    />
+                  ) : (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  );
+                },
+              }}
+            >
+              {problem.readme}
+            </ReactMarkdown>
+          )}
         </div>
       )}
     </div>
