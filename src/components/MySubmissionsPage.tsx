@@ -47,51 +47,55 @@ const MySubmissionsPage: React.FC = () => {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="max-w-6xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold mb-8">My Submissions</h1>
-      {submissions.length === 0 ? (
-        <p>You haven't made any submissions yet.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white dark:bg-gray-800 shadow-md rounded-lg">
-            <thead>
-              <tr className="bg-gray-100 dark:bg-gray-700">
-                <th className="px-4 py-2 text-left">Course ID</th>
-                <th className="px-4 py-2 text-left">Problem</th>
-                <th className="px-4 py-2 text-left">Status</th>
-                <th className="px-4 py-2 text-left">Score</th>
-                <th className="px-4 py-2 text-left">Submitted On</th>
-              </tr>
-            </thead>
-            <tbody>
-              {submissions.map((submission) => (
-                <tr key={submission.id} className="border-t border-gray-200 dark:border-gray-700">
-                  <td className="px-4 py-2">{submission.classProblem.class.courseId}</td>
-                  <td className="px-4 py-2">
-                    <Link 
-                      to={`/problem/${submission.classProblem.problem.id}`}
-                      className="text-blue-600 dark:text-blue-400 hover:underline"
-                    >
-                      {submission.classProblem.problem.title}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-2">
-                    <span className={`px-2 py-1 rounded ${
+    <div className="my-submissions-page">
+      <h1 className="text-2xl font-bold mb-4">My Submissions</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th className="px-4 py-2 text-center">ID</th>
+              <th className="px-4 py-2 text-center">Course ID</th>
+              <th className="px-4 py-2 text-center">Problem</th>
+              <th className="px-4 py-2 text-center">Status</th>
+              <th className="px-4 py-2 text-center">Score</th>
+              <th className="px-4 py-2 text-center">Submitted At</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            {submissions.map((submission) => (
+              <tr key={submission.id} className="border-t border-gray-200 dark:border-gray-700">
+                <td className="px-4 py-2 text-center">{submission.id}</td>
+                <td className="px-4 py-2 text-center">{submission.classProblem.class.courseId}</td>
+                <td className="px-4 py-2 text-center">
+                  <Link 
+                    to={`/problem/${submission.classProblem.problem.id}`}
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    {submission.classProblem.problem.title}
+                  </Link>
+                </td>
+                <td className="px-4 py-2 text-center">
+                  <Link
+                    to={`/submission/${submission.id}`}
+                    className={`px-2 py-1 rounded inline-flex items-center ${
                       submission.status === 'ACCEPTED' ? 'bg-green-200 text-green-800' :
                       submission.status === 'REJECTED' ? 'bg-red-200 text-red-800' :
                       'bg-yellow-200 text-yellow-800'
-                    }`}>
-                      {submission.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2">{submission.score}</td>
-                  <td className="px-4 py-2">{new Date(submission.createdAt).toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                    }`}
+                  >
+                    {submission.status}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </Link>
+                </td>
+                <td className="px-4 py-2 text-center">{submission.status !== 'PENDING' ? submission.score : '-'}</td>
+                <td className="px-4 py-2 text-center">{new Date(submission.createdAt).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

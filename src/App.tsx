@@ -19,6 +19,7 @@ import axios from 'axios';
 import './styles/globals.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SubmitPage from './components/SubmitPage';
 
 function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -97,7 +98,7 @@ function AppContent() {
           />
           <Route 
             path="/submit/:classProblemId" 
-            element={isLoggedIn ? <SubmissionPage /> : <Navigate to="/login" />} 
+            element={isLoggedIn ? <SubmitPage /> : <Navigate to="/login" />} 
           />
           <Route 
             path="/my-submissions" 
@@ -106,6 +107,9 @@ function AppContent() {
           <Route 
             path="/courses" 
             element={isLoggedIn ? <CourseListPage /> : <Navigate to="/login" />} 
+          />
+          <Route path="/submission/:id"
+            element={isLoggedIn ? <SubmissionPage /> : <Navigate to="/login" />}
           />
         </Routes>
       </Layout>

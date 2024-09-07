@@ -8,8 +8,8 @@ interface AssignmentCardProps {
   idx: number;
   title: string;
   description: string;
-  opened: boolean;
   dueDate: string;
+  opened: boolean;
   classTitle?: string;
   link?: string;
 }

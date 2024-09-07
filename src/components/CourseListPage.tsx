@@ -66,7 +66,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
               description={classProblem.problem.description}
               dueDate={classProblem.dueDate}
               link={classProblem.problem.link}
-              opened={true}
+              opened={new Date(classProblem.dueDate) > new Date()}
             />
           ) : (
             <div key={classProblem.id} className="text-red-500">Problem data is missing for assignment {index + 1}</div>

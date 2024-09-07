@@ -1,69 +1,54 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaGithub } from 'react-icons/fa';
+import { FaBook, FaCode, FaTrophy, FaGithub } from 'react-icons/fa';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to Beojji
+    <div className="flex flex-col items-center justify-center py-8">
+      <main className="flex flex-col items-center w-full px-4 sm:px-12 text-center max-w-4xl mx-auto">
+        <img src={require('../resources/beojji.jpg')} alt="Beojji" className="w-auto h-64 mb-4 object-contain" />
+        <h1 className="text-4xl sm:text-5xl font-bold mb-6 pt-2 pb-4">
+          Welcome to Beojji!
         </h1>
 
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl w-full">
           <Link
             to="/courses"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
+            className="p-4 flex flex-col items-center justify-center border rounded-xl hover:text-blue-600 focus:text-blue-600"
           >
-            <h3 className="text-2xl font-bold">Courses &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Explore our coding courses and start learning!
-            </p>
+            <FaBook className="text-3xl mb-2" />
+            <h3 className="text-lg font-bold">Courses</h3>
+            <p className="text-sm mt-1">Learn coding</p>
           </Link>
 
           <Link
             to="/problems"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
+            className="p-4 flex flex-col items-center justify-center border rounded-xl hover:text-blue-600 focus:text-blue-600"
           >
-            <h3 className="text-2xl font-bold">Problems &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Challenge yourself with our coding problems!
-            </p>
+            <FaCode className="text-3xl mb-2" />
+            <h3 className="text-lg font-bold">Problems</h3>
+            <p className="text-sm mt-1">Solve challenges</p>
           </Link>
 
           <Link
             to="/leaderboard"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
+            className="p-4 flex flex-col items-center justify-center border rounded-xl hover:text-blue-600 focus:text-blue-600"
           >
-            <h3 className="text-2xl font-bold">Leaderboard &rarr;</h3>
-            <p className="mt-4 text-xl">
-              See how you rank among other coders!
-            </p>
+            <FaTrophy className="text-3xl mb-2" />
+            <h3 className="text-lg font-bold">Leaderboard</h3>
+            <p className="text-sm mt-1">Compare ranks</p>
           </Link>
 
           <a
-            href="https://github.com/your-repo/beojji"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
+            href="https://github.com/kimjg1119/beojji-frontend"
+            className="p-4 flex flex-col items-center justify-center border rounded-xl hover:text-blue-600 focus:text-blue-600"
           >
-            <h3 className="text-2xl font-bold">GitHub &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Check out our source code and contribute!
-            </p>
+            <FaGithub className="text-3xl mb-2" />
+            <h3 className="text-lg font-bold">GitHub</h3>
+            <p className="text-sm mt-1">View source</p>
           </a>
         </div>
       </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://github.com/your-repo/beojji"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <FaGithub className="h-4 ml-2" />
-        </a>
-      </footer>
     </div>
   );
 };

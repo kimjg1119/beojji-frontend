@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import { FaSun, FaMoon, FaUser } from 'react-icons/fa';
+import { FaSun, FaMoon, FaUser, FaGithub } from 'react-icons/fa';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -178,9 +178,36 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
 
       <footer className="bg-card text-card-foreground mt-auto">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm">© 2024 Beojji. All rights reserved.</p>
+          <p className="text-center text-sm">© 2024 KU-PLRG. All rights reserved.</p>
         </div>
       </footer>
+
+      <div className="flex justify-center space-x-4 py-4 bg-card">
+        <div className="flex items-center">
+          <a
+            href="https://github.com/kimjg1119/beojji-frontend"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:text-primary/80 flex items-center"
+            aria-label="Frontend GitHub"
+          >
+            <FaGithub size={24} />
+            <span className="ml-2 text-sm">Frontend</span>
+          </a>
+        </div>
+        <div className="flex items-center">
+          <a
+            href="https://github.com/kimjg1119/beojji-backend"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:text-primary/80 flex items-center"
+            aria-label="Backend GitHub"
+          >
+            <FaGithub size={24} />
+            <span className="ml-2 text-sm">Backend</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 };
