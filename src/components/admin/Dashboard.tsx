@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
     totalSubmissions: 0, // Changed from completionRate
   });
   const [loading, setLoading] = useState(true);
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities] = useState<Activity[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

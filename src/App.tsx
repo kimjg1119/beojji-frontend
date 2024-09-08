@@ -1,3 +1,4 @@
+import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -78,33 +79,33 @@ function AppContent() {
           <Route path="/users" element={<UserList />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/register-success" element={<RegisterSuccessPage />} />
-          <Route 
-            path="/login" 
-            element={isLoggedIn ? <Navigate to="/courses" /> : <LoginPage onLogin={handleLogin} />} 
+          <Route
+            path="/login"
+            element={isLoggedIn ? <Navigate to="/courses" /> : <LoginPage onLogin={handleLogin} />}
           />
-          <Route 
-            path="/my-status" 
-            element={isLoggedIn ? <MyStatus /> : <Navigate to="/login" />} 
+          <Route
+            path="/my-status"
+            element={isLoggedIn ? <MyStatus /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/admin" 
-            element={userRole === 'admin' ? <AdminPage /> : <Navigate to="/" />} 
+          <Route
+            path="/admin"
+            element={userRole === 'admin' ? <AdminPage /> : <Navigate to="/" />}
           />
-          <Route 
-            path="/problem/:courseProblemId" 
-            element={isLoggedIn ? <ProblemPage /> : <Navigate to="/login" />} 
+          <Route
+            path="/problem/:courseProblemId"
+            element={isLoggedIn ? <ProblemPage /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/submit/:courseProblemId" 
-            element={isLoggedIn ? <SubmitPage /> : <Navigate to="/login" />} 
+          <Route
+            path="/submit/:courseProblemId"
+            element={isLoggedIn ? <SubmitPage /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/my-submissions" 
-            element={isLoggedIn ? <MySubmissionPage /> : <Navigate to="/login" />} 
+          <Route
+            path="/my-submissions"
+            element={isLoggedIn ? <MySubmissionPage /> : <Navigate to="/login" />}
           />
-          <Route 
-            path="/courses" 
-            element={isLoggedIn ? <CourseListPage /> : <Navigate to="/login" />} 
+          <Route
+            path="/courses"
+            element={isLoggedIn ? <CourseListPage /> : <Navigate to="/login" />}
           />
           <Route path="/submission/:id"
             element={isLoggedIn ? <SubmissionPage /> : <Navigate to="/login" />}

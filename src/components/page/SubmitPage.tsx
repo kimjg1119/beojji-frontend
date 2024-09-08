@@ -26,7 +26,7 @@ const SubmitPage: React.FC = () => {
   const [courseProblem, setCourseProblem] = useState<CourseProblem | null>(null);
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCourseProblem = async () => {
@@ -51,7 +51,7 @@ const SubmitPage: React.FC = () => {
       return;
     }
     try {
-      const response = await axiosInstance.post('submission', {
+      await axiosInstance.post('submission', {
         courseProblemId: courseProblem.id,
         code,
       });

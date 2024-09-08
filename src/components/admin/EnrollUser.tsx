@@ -65,9 +65,16 @@ const EnrollUser: React.FC = () => {
             setSelectedUser(null);
             setSelectedClasses([]);
             fetchUsers();
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error enrolling user:', error);
-            showErrorToast('Enrollment failed: ' + (error.response?.data?.message || error.message || 'Unknown error'));
+            if (error instanceof Error) {
+                showErrorToast('Enrollment failed: ' + error.message);
+            } else if (typeof error === 'object' && error !== null && 'response' in error) {
+                const axiosError = error as { response?: { data?: { message?: string } } };
+                showErrorToast('Enrollment failed: ' + (axiosError.response?.data?.message || 'Unknown error'));
+            } else {
+                showErrorToast('Enrollment failed: Unknown error');
+            }
         }
     };
 

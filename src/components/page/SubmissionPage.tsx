@@ -27,7 +27,6 @@ const SubmissionPage: React.FC = () => {
   const [submission, setSubmission] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const isDarkMode = false; // You should replace this with your actual dark mode logic
 
   useEffect(() => {
     const fetchSubmission = async () => {
@@ -36,7 +35,7 @@ const SubmissionPage: React.FC = () => {
         setSubmission(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch submission');
+        setError('Failed to fetch submission: ' + err);
         setLoading(false);
       }
     };

@@ -35,7 +35,7 @@ const ProblemPage: React.FC = () => {
   const [courseProblem, setCourseProblem] = useState<CourseProblem | null>(null);
   const [loading, setLoading] = useState(true);
   const [readmeLoading, setReadmeLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCourseProblem = async () => {
@@ -118,7 +118,7 @@ const ProblemPage: React.FC = () => {
               className="prose dark:prose-invert max-w-none"
               remarkPlugins={[remarkGfm]}
               components={{
-                code({ node, className, children, ...props }) {
+                code({ className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
                   return match ? (
                     <CodeBlock

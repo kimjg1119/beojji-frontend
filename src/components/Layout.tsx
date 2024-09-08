@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
   const location = useLocation();
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const handleLogout = () => {
     onLogout();
@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       setIsAccountMenuOpen(false);
     }, 300); // 300ms delay before closing the menu
   };

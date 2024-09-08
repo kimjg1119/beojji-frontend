@@ -15,8 +15,12 @@ const RegisterPage: React.FC = () => {
     try {
       await axiosInstance.post('/api/users', { name, email, studentId, password });
       navigate('/register-success');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Registration failed: ' + err);
+      }
     }
   };
 
