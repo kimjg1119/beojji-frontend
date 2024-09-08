@@ -36,12 +36,12 @@ const Dashboard: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const statsResponse = await axiosInstance.get('/api/admin/stats');
+        const statsResponse = await axiosInstance.get('admin/stats');
         setStats(statsResponse.data);
         
         try {
-          const activitiesResponse = await axiosInstance.get('/api/admin/activities');
-          setActivities(activitiesResponse.data);
+          // const activitiesResponse = await axiosInstance.get('admin/activities');
+          // setActivities(activitiesResponse.data);
         } catch (error) {
           console.error('Error fetching activities:', error);
           showErrorToast('Failed to load recent activities');

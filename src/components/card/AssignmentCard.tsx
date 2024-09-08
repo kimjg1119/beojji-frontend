@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
-import Button from './Button'; // Import the Button component
+import Button from '../basic/Button'; // Import the Button component
 
 interface AssignmentCardProps {
   classProblemId: number;

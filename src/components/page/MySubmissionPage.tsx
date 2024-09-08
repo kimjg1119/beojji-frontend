@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axiosInstance from '../utils/axios';
-import { showErrorToast } from '../utils/toastUtils';
+import axiosInstance from '../../utils/axios';
+import { showErrorToast } from '../../utils/toastUtils';
 
 interface Submission {
   id: number;
-  classProblem: {
+  courseProblem: {
     problem: {
       id: number;
       title: string;
     };
-    class: {
+    course: {
       id: number;
       name: string;
       courseId: string;
@@ -22,7 +22,7 @@ interface Submission {
   code: string;
 }
 
-const MySubmissionsPage: React.FC = () => {
+const MySubmissionPage: React.FC = () => {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,13 +30,13 @@ const MySubmissionsPage: React.FC = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const response = await axiosInstance.get('/api/submissions/my');
+        setLoading(true);
+        const response = await axiosInstance.get('submission/my');
         setSubmissions(response.data);
         setLoading(false);
-      } catch (err) {
-        console.error('Error fetching submissions:', err);
-        showErrorToast('Failed to load submissions. Please try again later.');
-        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching submissions:', error);
+        showErrorToast('Failed to load submissions');
       }
     };
 
@@ -65,13 +65,13 @@ const MySubmissionsPage: React.FC = () => {
             {submissions.map((submission) => (
               <tr key={submission.id} className="border-t border-gray-200 dark:border-gray-700">
                 <td className="px-4 py-2 text-center">{submission.id}</td>
-                <td className="px-4 py-2 text-center">{submission.classProblem.class.courseId}</td>
+                <td className="px-4 py-2 text-center">{submission.courseProblem.course.courseId}</td>
                 <td className="px-4 py-2 text-center">
                   <Link 
-                    to={`/problem/${submission.classProblem.problem.id}`}
+                    to={`/problem/${submission.courseProblem.problem.id}`}
                     className="text-blue-600 dark:text-blue-400 hover:underline"
                   >
-                    {submission.classProblem.problem.title}
+                    {submission.courseProblem.problem.title}
                   </Link>
                 </td>
                 <td className="px-4 py-2 text-center">
@@ -100,4 +100,4 @@ const MySubmissionsPage: React.FC = () => {
   );
 };
 
-export default MySubmissionsPage;
+export default MySubmissionPage;

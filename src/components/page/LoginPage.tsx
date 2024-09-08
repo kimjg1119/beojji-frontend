@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../utils/axios';
+import axiosInstance from '../../utils/axios';
 
 interface LoginPageProps {
   onLogin: (token: string) => void;
@@ -19,7 +19,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post('/api/auth/login', credentials);
+      const response = await axiosInstance.post('auth/login', credentials);
       const token = response.data.access_token;
       if (token) {
         localStorage.setItem('token', token);

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axiosInstance from '../utils/axios';
-import AssignmentCard from './AssignmentCard';
+import axiosInstance from '../../utils/axios';
+import AssignmentCard from '../card/AssignmentCard';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { showErrorToast } from '../utils/toastUtils';
 
 interface Problem {
   id: number;
@@ -12,7 +10,7 @@ interface Problem {
   link: string;
 }
 
-interface ClassProblem {
+interface CourseProblem {
   id: number;
   problem: Problem;
   dueDate: string;
@@ -25,10 +23,11 @@ interface Course {
   term: string;
   description: string;
   link: string;
-  problems: ClassProblem[];
+  courseProblem: CourseProblem[];
 }
 
 const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
+  console.log(course);
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow-sm hover:shadow-md transition-all mb-6">
       <div className="p-6">
@@ -37,7 +36,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
             <p className="text-s text-gray-500">{course.term}</p>
             <h3 className="text-2xl font-semibold">{course.courseId} | {course.name}</h3>
             <p className="text-sm text-muted-foreground">
-              {course.problems.length} problem{course.problems.length !== 1 ? 's' : ''}
+              {course.courseProblem.length} problem{course.courseProblem.length !== 1 ? 's' : ''}
             </p>
           </div>
           <a 
@@ -56,20 +55,20 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
      </div>
       <div className="px-6 pb-6 space-y-4">
         <h4 className="text-lg font-semibold">Assignments:</h4>
-        {course.problems.map((classProblem, index) => (
-          classProblem.problem ? (
+        {course.courseProblem.map((courseProblem, index) => (
+          courseProblem.problem ? (
             <AssignmentCard
-              key={classProblem.id}
-              classProblemId={classProblem.id}
+              key={courseProblem.id}
+              classProblemId={courseProblem.id}
               idx={index}
-              title={classProblem.problem.title}
-              description={classProblem.problem.description}
-              dueDate={classProblem.dueDate}
-              link={classProblem.problem.link}
-              opened={new Date(classProblem.dueDate) > new Date()}
+              title={courseProblem.problem.title}
+              description={courseProblem.problem.description}
+              dueDate={courseProblem.dueDate}
+              link={courseProblem.problem.link}
+              opened={new Date(courseProblem.dueDate) > new Date()}
             />
           ) : (
-            <div key={classProblem.id} className="text-red-500">Problem data is missing for assignment {index + 1}</div>
+            <div key={courseProblem.id} className="text-red-500">Problem data is missing for assignment {index + 1}</div>
           )
         ))}
       </div>
@@ -78,16 +77,15 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
 };
 
 const CourseListPage: React.FC = () => {
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourse] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchCourse = async () => {
       try {
-        const response = await axiosInstance.get('/api/users/me/classes');
-        console.log('API Response:', response.data); // Add this line for debugging
-        setCourses(response.data);
+        const response = await axiosInstance.get('user/me/course'); 
+        setCourse(response.data);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching courses:', err);
@@ -96,7 +94,7 @@ const CourseListPage: React.FC = () => {
       }
     };
 
-    fetchCourses();
+    fetchCourse();
   }, []);
 
   if (loading) return <div className="text-center mt-8">Loading...</div>;

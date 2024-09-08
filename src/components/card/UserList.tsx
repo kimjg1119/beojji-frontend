@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../utils/axios';
+import axiosInstance from '../../utils/axios';
 
 interface User {
   id: number;
@@ -16,7 +16,7 @@ const UserList: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axiosInstance.get('/api/users');
+        const response = await axiosInstance.get('users'); // Updated API path
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);

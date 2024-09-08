@@ -29,7 +29,7 @@ const AddProblem: React.FC = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axiosInstance.get('/api/classes');
+      const response = await axiosInstance.get('course'); // Updated API path
       setClasses(response.data);
     } catch (error) {
       console.error('Error fetching classes:', error);
@@ -52,7 +52,7 @@ const AddProblem: React.FC = () => {
       return;
     }
     try {
-      await axiosInstance.post('/api/admin/problems', formData);
+      await axiosInstance.post('problem', formData); // Updated API path
       showSuccessToast('Problem added successfully');
       setFormData({ title: '', description: '', link: '', classIds: [] });
     } catch (error: any) {

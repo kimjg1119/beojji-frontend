@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import AdminSidebar from './AdminSidebar';
-import Dashboard from './Dashboard';
-import EnrollUser from './EnrollUser';
-import AddProblem from './AddProblem';
+import AdminSidebar from '../admin/AdminSidebar';
+import Dashboard from '../admin/Dashboard';
+import EnrollUser from '../admin/EnrollUser';
+import AddProblem from '../admin/AddProblem';
 // Import other admin components as needed
 
 const AdminPage: React.FC = () => {

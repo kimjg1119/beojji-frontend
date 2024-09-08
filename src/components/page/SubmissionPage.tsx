@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axiosInstance from '../utils/axios';
+import axiosInstance from '../../utils/axios';
 import { FaCheckCircle, FaTimesCircle, FaHourglassHalf } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -9,12 +9,12 @@ interface Submission {
   code: string;
   status: string;
   createdAt: string;
-  classProblem: {
+  courseProblem: {
     problem: {
       id: number;
       title: string;
     };
-    class: {
+    course: {
       id: number;
       name: string;
       courseId: number;
@@ -66,15 +66,15 @@ const SubmissionPage: React.FC = () => {
         <div>
           <h2 className="text-xl font-semibold mb-2 text-gray-700 dark:text-gray-300">Problem</h2>
           <Link 
-            to={`/problem/${submission.classProblem.problem.id}`}
+            to={`/problem/${submission.courseProblem.problem.id}`}
             className="text-blue-600 dark:text-blue-400 hover:underline"
           >
-            {submission.classProblem.problem.title}
+            {submission.courseProblem.problem.title}
           </Link>
         </div>
         <div>
-          <h2 className="text-xl font-semibold mb-2 text-gray-700 dark:text-gray-300">Class</h2>
-          <p className="text-gray-600 dark:text-gray-400">{submission.classProblem.class.name}</p>
+          <h2 className="text-xl font-semibold mb-2 text-gray-700 dark:text-gray-300">Course</h2>
+          <p className="text-gray-600 dark:text-gray-400">{submission.courseProblem.course.name}</p>
         </div>
         <div>
           <h2 className="text-xl font-semibold mb-2 text-gray-700 dark:text-gray-300">Status</h2>
