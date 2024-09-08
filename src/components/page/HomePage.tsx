@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaBook, FaCode, FaTrophy, FaGithub } from 'react-icons/fa';
+import beojji from '../../resources/beojji.jpg';
 
 const HomePage: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <main className="flex flex-col items-center w-full px-4 sm:px-12 text-center max-w-4xl mx-auto">
-        <img src={require('../../resources/beojji.jpg')} alt="Beojji" className="w-auto h-64 mb-4 object-contain" />
+        <img src={beojji} alt="Beojji" className="w-auto h-64 mb-4 object-contain" />
         <h1 className="text-4xl sm:text-5xl font-bold mb-6 pt-2 pb-4">
           Welcome to Beojji!
         </h1>

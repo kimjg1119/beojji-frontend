@@ -55,9 +55,16 @@ const AddProblem: React.FC = () => {
       await axiosInstance.post('problem', formData); // Updated API path
       showSuccessToast('Problem added successfully');
       setFormData({ title: '', description: '', link: '', classIds: [] });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error adding problem:', error);
-      showErrorToast('Failed to add problem: ' + (error.response?.data?.message || error.message || 'Unknown error'));
+      if (error instanceof Error) {
+        showErrorToast('Failed to add problem: ' + error.message);
+      } else if (typeof error === 'object' && error !== null && 'response' in error) {
+        const axiosError = error as { response?: { data?: { message?: string } } };
+        showErrorToast('Failed to add problem: ' + (axiosError.response?.data?.message || 'Unknown error'));
+      } else {
+        showErrorToast('Failed to add problem: Unknown error');
+      }
     }
   };
 
