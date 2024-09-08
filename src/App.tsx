@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import axiosInstance from './utils/axios';
-import { ThemeProvider } from './contexts/ThemeContext';
-import Layout from './components/Layout';
-import HomePage from './components/HomePage';
-import UserList from './components/UserList';
-import RegisterPage from './components/RegisterPage';
-import RegisterSuccessPage from './components/RegisterSuccessPage';
-import LoginPage from './components/LoginPage';
-import MyStatus from './components/MyStatus';
-import AdminPage from './components/admin/AdminPage';
-import ProblemPage from './components/ProblemPage';
-import SubmissionPage from './components/SubmissionPage';
-import MySubmissionsPage from './components/MySubmissionsPage';
-import CourseListPage from './components/CourseListPage';
-import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
-import './styles/globals.css';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SubmitPage from './components/SubmitPage';
+import MyStatus from './components/card/MyStatus';
+import UserList from './components/card/UserList';
+import Layout from './components/Layout';
+import AdminPage from './components/page/AdminPage';
+import CourseListPage from './components/page/CourseListPage';
+import HomePage from './components/page/HomePage';
+import LoginPage from './components/page/LoginPage';
+import MySubmissionPage from './components/page/MySubmissionPage';
+import ProblemPage from './components/page/ProblemPage';
+import RegisterPage from './components/page/RegisterPage';
+import RegisterSuccessPage from './components/page/RegisterSuccessPage';
+import SubmissionPage from './components/page/SubmissionPage';
+import SubmitPage from './components/page/SubmitPage';
+import { ThemeProvider } from './contexts/ThemeContext';
+import './styles/globals.css';
+import axiosInstance from './utils/axios';
 
 function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +43,7 @@ function AppContent() {
       return;
     }
     try {
-      const response = await axiosInstance.get('/api/users/me');
+      const response = await axiosInstance.get('user/me'); // Updated API path
       console.log('User role fetched:', response.data.role);
       setUserRole(response.data.role);
       setIsLoggedIn(true);
@@ -93,16 +91,16 @@ function AppContent() {
             element={userRole === 'admin' ? <AdminPage /> : <Navigate to="/" />} 
           />
           <Route 
-            path="/problem/:classProblemId" 
+            path="/problem/:courseProblemId" 
             element={isLoggedIn ? <ProblemPage /> : <Navigate to="/login" />} 
           />
           <Route 
-            path="/submit/:classProblemId" 
+            path="/submit/:courseProblemId" 
             element={isLoggedIn ? <SubmitPage /> : <Navigate to="/login" />} 
           />
           <Route 
             path="/my-submissions" 
-            element={isLoggedIn ? <MySubmissionsPage /> : <Navigate to="/login" />} 
+            element={isLoggedIn ? <MySubmissionPage /> : <Navigate to="/login" />} 
           />
           <Route 
             path="/courses" 
