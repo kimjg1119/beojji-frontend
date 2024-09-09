@@ -84,7 +84,7 @@ const CourseListPage: React.FC = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axiosInstance.get('user/me/course'); 
+        const response = await axiosInstance.get('course/me'); 
         setCourse(response.data);
         setLoading(false);
       } catch (err) {

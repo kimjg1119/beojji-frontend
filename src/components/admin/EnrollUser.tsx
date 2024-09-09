@@ -4,30 +4,30 @@ import { showSuccessToast, showErrorToast, showInfoToast } from '../../utils/toa
 
 interface User {
     id: number;
-    name: string;
+    username: string;
     email: string;
     studentId: string;
 }
 
-interface Class {
+interface Course {
     id: number;
     name: string;
 }
 
 const EnrollUser: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
-    const [classes, setClasses] = useState<Class[]>([]);
+    const [courses, setCourses] = useState<Course[]>([]);
     const [selectedUser, setSelectedUser] = useState<number | null>(null);
-    const [selectedClasses, setSelectedClasses] = useState<number[]>([]);
+    const [selectedCourses, setSelectedCourses] = useState<number[]>([]);
 
     useEffect(() => {
         fetchUsers();
-        fetchClasses();
+        fetchCourses();
     }, []);
 
     const fetchUsers = async () => {
         try {
-            const response = await axiosInstance.get('/api/users');
+            const response = await axiosInstance.get('user');
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -35,13 +35,13 @@ const EnrollUser: React.FC = () => {
         }
     };
 
-    const fetchClasses = async () => {
+    const fetchCourses = async () => {
         try {
-            const response = await axiosInstance.get('/api/classes');
-            setClasses(response.data);
+            const response = await axiosInstance.get('course');
+            setCourses(response.data);
         } catch (error) {
-            console.error('Error fetching classes:', error);
-            showErrorToast('Error fetching classes');
+            console.error('Error fetching courses:', error);
+            showErrorToast('Error fetching courses');
         }
     };
 
@@ -51,19 +51,19 @@ const EnrollUser: React.FC = () => {
             return;
         }
 
-        if (selectedClasses.length === 0) {
-            showInfoToast('Please select at least one class');
+        if (selectedCourses.length === 0) {
+            showInfoToast('Please select at least one course');
             return;
         }
 
         try {
             await axiosInstance.post('/api/enrollment/enroll', {
                 userId: selectedUser,
-                classIds: selectedClasses,
+                courseIds: selectedCourses,
             });
             showSuccessToast('Enrollment successful');
             setSelectedUser(null);
-            setSelectedClasses([]);
+            setSelectedCourses([]);
             fetchUsers();
         } catch (error: unknown) {
             console.error('Error enrolling user:', error);
@@ -90,36 +90,36 @@ const EnrollUser: React.FC = () => {
                     <option value="">Select a user</option>
                     {users.map((user) => (
                         <option key={user.id} value={user.id}>
-                            {user.name} ({user.studentId})
+                            {user.username} ({user.studentId})
                         </option>
                     ))}
                 </select>
             </div>
             <div className="mb-4">
-                <label className="block mb-2 text-foreground">Select Classes:</label>
-                {classes.map((cls) => (
-                    <div key={cls.id} className="flex items-center mb-2">
+                <label className="block mb-2 text-foreground">Select Courses:</label>
+                {courses.map((course) => (
+                    <div key={course.id} className="flex items-center mb-2">
                         <input
                             type="checkbox"
-                            id={`class-${cls.id}`}
-                            checked={selectedClasses.includes(cls.id)}
+                            id={`course-${course.id}`}
+                            checked={selectedCourses.includes(course.id)}
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    setSelectedClasses([...selectedClasses, cls.id]);
+                                    setSelectedCourses([...selectedCourses, course.id]);
                                 } else {
-                                    setSelectedClasses(selectedClasses.filter((id) => id !== cls.id));
+                                    setSelectedCourses(selectedCourses.filter((id) => id !== course.id));
                                 }
                             }}
                             className="mr-2"
                         />
-                        <label htmlFor={`class-${cls.id}`} className="text-foreground">{cls.name}</label>
+                        <label htmlFor={`course-${course.id}`} className="text-foreground">{course.name}</label>
                     </div>
                 ))}
             </div>
             <button
                 onClick={handleEnroll}
                 className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90"
-                disabled={!selectedUser || selectedClasses.length === 0}
+                disabled={!selectedUser || selectedCourses.length === 0}
             >
                 Enroll User
             </button>

@@ -31,7 +31,7 @@ const MySubmissionPage: React.FC = () => {
     const fetchSubmissions = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get('submission/my');
+        const response = await axiosInstance.get('submission/me');
         setSubmissions(response.data);
         setLoading(false);
       } catch (error) {
