@@ -1,8 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
-import { FaBook, FaCode, FaTrophy, FaGithub } from 'react-icons/fa';
-import Image from 'next/image';
-import beojji404 from '@/public/beojji404.png';
+import React from "react";
+import Link from "next/link";
+import { FaBook, FaCode, FaTrophy, FaGithub } from "react-icons/fa";
+import Image from "next/image";
+import beojji404 from "@/public/beojji404.png";
 
 export default function NotFound() {
   return (
@@ -13,7 +13,7 @@ export default function NotFound() {
           loading="eager"
           src={beojji404}
           alt="Picture of cat named Beojji"
-          placeholder='blur'
+          placeholder="blur"
         />
         <h1 className="text-4xl sm:text-5xl font-bold mb-6 pt-2 pb-4">
           Beojji ran away!!
@@ -25,4 +25,4 @@ export default function NotFound() {
       </main>
     </div>
   );
-};
+}

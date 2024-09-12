@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, ReactNode, useEffect } from 'react';
-import { KEY_THEME } from '../config';
-import useTabSharedState from '../hooks/tabSharedState';
+import React, { createContext, useContext, ReactNode, useEffect } from "react";
+import { KEY_THEME } from "../config";
+import useTabSharedState from "../hooks/tabSharedState";
 
-type Theme = 'light' | 'dark';
+type Theme = "light" | "dark";
 
 interface ThemeContextType {
   theme: Theme;
@@ -13,20 +13,24 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useTabSharedState<Theme>(KEY_THEME, 'light');
+export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [theme, setTheme] = useTabSharedState<Theme>(KEY_THEME, "light");
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   useEffect(() => {
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(isDarkMode ? 'dark' : 'light');
+    const isDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    setTheme(isDarkMode ? "dark" : "light");
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
   return (
@@ -39,7 +43,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 };

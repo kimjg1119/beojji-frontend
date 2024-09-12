@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaGithub } from 'react-icons/fa';
-import Button from '../basic/Button'; // Import the Button component
+import React from "react";
+import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
+import Button from "../basic/Button"; // Import the Button component
 
 interface AssignmentCardProps {
   classProblemId: number;
@@ -21,15 +21,15 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({
   description,
   opened,
   dueDate,
-  link
+  link,
 }) => {
   return (
     <div className="flex items-center">
       <p className="text-xl text-[#666] mr-4">#{idx + 1}</p>
       <div className="flex-grow">
         <p className="text-xl font-bold flex items-center gap-2">
-          <Link 
-            to={`/problem/${classProblemId}`}
+          <Link
+            href={`/problem/${classProblemId}`}
             className="hover:text-blue-600 transition-colors"
           >
             {title}
@@ -45,12 +45,16 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({
             </a>
           )}
         </p>
-        <p className="text-sm text-gray-600 dark:text-gray-400">{description}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Due: {new Date(dueDate).toLocaleString()}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          {description}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+          Due: {new Date(dueDate).toLocaleString()}
+        </p>
       </div>
       <div className="ml-4">
         {opened ? (
-          <Button 
+          <Button
             to={`/submit/${classProblemId}`}
             variant="primary"
             size="small"
@@ -58,11 +62,7 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({
             Submit
           </Button>
         ) : (
-          <Button 
-            variant="secondary"
-            size="small"
-            disabled
-          >
+          <Button variant="secondary" size="small" disabled>
             Closed
           </Button>
         )}

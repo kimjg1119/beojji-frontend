@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axios';
-import { showSuccessToast, showErrorToast, showInfoToast } from '../../utils/toastUtils';
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../utils/axios";
+import {
+  showSuccessToast,
+  showErrorToast,
+  showInfoToast,
+} from "../../utils/toastUtils";
 
 interface FormData {
   title: string;
@@ -16,9 +20,9 @@ interface Class {
 
 const AddProblem: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    title: '',
-    description: '',
-    link: '',
+    title: "",
+    description: "",
+    link: "",
     classIds: [],
   });
   const [classes, setClasses] = useState<Class[]>([]);
@@ -29,41 +33,52 @@ const AddProblem: React.FC = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axiosInstance.get('course'); // Updated API path
+      const response = await axiosInstance.get("course"); // Updated API path
       setClasses(response.data);
     } catch (error) {
-      console.error('Error fetching classes:', error);
-      showErrorToast('Error fetching classes');
+      console.error("Error fetching classes:", error);
+      showErrorToast("Error fetching classes");
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.description || !formData.link) {
-      showInfoToast('Please fill in all required fields');
+      showInfoToast("Please fill in all required fields");
       return;
     }
     if (formData.classIds.length === 0) {
-      showInfoToast('Please select at least one class');
+      showInfoToast("Please select at least one class");
       return;
     }
     try {
-      await axiosInstance.post('problem', formData); // Updated API path
-      showSuccessToast('Problem added successfully');
-      setFormData({ title: '', description: '', link: '', classIds: [] });
+      await axiosInstance.post("problem", formData); // Updated API path
+      showSuccessToast("Problem added successfully");
+      setFormData({ title: "", description: "", link: "", classIds: [] });
     } catch (error: unknown) {
-      console.error('Error adding problem:', error);
+      console.error("Error adding problem:", error);
       if (error instanceof Error) {
-        showErrorToast('Failed to add problem: ' + error.message);
-      } else if (typeof error === 'object' && error !== null && 'response' in error) {
-        const axiosError = error as { response?: { data?: { message?: string } } };
-        showErrorToast('Failed to add problem: ' + (axiosError.response?.data?.message || 'Unknown error'));
+        showErrorToast("Failed to add problem: " + error.message);
+      } else if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error
+      ) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        showErrorToast(
+          "Failed to add problem: " +
+            (axiosError.response?.data?.message || "Unknown error"),
+        );
       } else {
-        showErrorToast('Failed to add problem: Unknown error');
+        showErrorToast("Failed to add problem: Unknown error");
       }
     }
   };
@@ -112,23 +127,30 @@ const AddProblem: React.FC = () => {
                 id={`class-${cls.id}`}
                 checked={formData.classIds.includes(cls.id)}
                 onChange={() => {
-                  setFormData(prevData => ({
+                  setFormData((prevData) => ({
                     ...prevData,
                     classIds: prevData.classIds.includes(cls.id)
-                      ? prevData.classIds.filter(id => id !== cls.id)
-                      : [...prevData.classIds, cls.id]
+                      ? prevData.classIds.filter((id) => id !== cls.id)
+                      : [...prevData.classIds, cls.id],
                   }));
                 }}
                 className="mr-2"
               />
-              <label htmlFor={`class-${cls.id}`} className="text-foreground">{cls.name}</label>
+              <label htmlFor={`class-${cls.id}`} className="text-foreground">
+                {cls.name}
+              </label>
             </div>
           ))}
         </div>
         <button
           type="submit"
           className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90"
-          disabled={!formData.title || !formData.description || !formData.link || formData.classIds.length === 0}
+          disabled={
+            !formData.title ||
+            !formData.description ||
+            !formData.link ||
+            formData.classIds.length === 0
+          }
         >
           Add Problem
         </button>

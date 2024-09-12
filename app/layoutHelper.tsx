@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 // import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Link from 'next/link';
+import Link from "next/link";
 
 // import { useTheme } from '../contexts/ThemeContext';
-import { FaSun, FaMoon, FaUser, FaGithub } from 'react-icons/fa';
+import { FaSun, FaMoon, FaUser, FaGithub } from "react-icons/fa";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,7 +12,12 @@ interface LayoutProps {
   onLogout: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogout }) => {
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  isLoggedIn,
+  userRole,
+  onLogout,
+}) => {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
 
   const handleLogout = () => {
     onLogout();
-    navigate('/login');
+    navigate("/login");
     setIsAccountMenuOpen(false);
   };
 
@@ -51,14 +56,17 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target as Node)) {
+      if (
+        accountMenuRef.current &&
+        !accountMenuRef.current.contains(event.target as Node)
+      ) {
         setIsAccountMenuOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -77,9 +85,9 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
                 <Link
                   to="/courses"
                   className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
-                    isActive('/courses')
-                      ? 'border-b-2 border-primary text-primary'
-                      : 'text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary'
+                    isActive("/courses")
+                      ? "border-b-2 border-primary text-primary"
+                      : "text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary"
                   }`}
                 >
                   Courses
@@ -87,20 +95,20 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
                 <Link
                   to="/my-submissions"
                   className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
-                    isActive('/my-submissions')
-                      ? 'border-b-2 border-primary text-primary'
-                      : 'text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary'
+                    isActive("/my-submissions")
+                      ? "border-b-2 border-primary text-primary"
+                      : "text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary"
                   }`}
                 >
                   Submissions
                 </Link>
-                {userRole === 'admin' && (
+                {userRole === "admin" && (
                   <Link
                     to="/admin"
                     className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
-                      isActive('/admin')
-                        ? 'border-b-2 border-primary text-primary'
-                        : 'text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary'
+                      isActive("/admin")
+                        ? "border-b-2 border-primary text-primary"
+                        : "text-muted-foreground hover:text-primary hover:border-b-2 hover:border-primary"
                     }`}
                   >
                     Admin
@@ -114,23 +122,21 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
                 className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
                 aria-label="Toggle theme"
               >
-                {theme === 'dark' ? <FaSun /> : <FaMoon />}
+                {theme === "dark" ? <FaSun /> : <FaMoon />}
               </button>
               {isLoggedIn ? (
-                <div 
+                <div
                   className="relative"
                   ref={accountMenuRef}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <button 
-                    className="flex items-center space-x-2 text-sm focus:outline-none"
-                  >
+                  <button className="flex items-center space-x-2 text-sm focus:outline-none">
                     <FaUser className="text-primary" />
                     <span>Account</span>
                   </button>
                   {isAccountMenuOpen && (
-                    <div 
+                    <div
                       className="absolute right-0 w-48 mt-2 py-2 bg-card rounded-md shadow-xl z-20"
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -180,7 +186,9 @@ const Layout: React.FC<LayoutProps> = ({ children, isLoggedIn, userRole, onLogou
 
       <footer className="bg-card text-card-foreground mt-auto">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm">© 2024 KU-PLRG. All rights reserved.</p>
+          <p className="text-center text-sm">
+            © 2024 KU-PLRG. All rights reserved.
+          </p>
         </div>
       </footer>
 

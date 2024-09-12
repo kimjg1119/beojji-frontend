@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import instance from '@/lib/api';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import instance from "@/lib/api";
 
 export default function RegisterPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [studentId, setStudentId] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await instance.post('/user', { name, email, studentId, password });
-      router.push('/register-success');
+      await instance.post("/user", { name, email, studentId, password });
+      router.push("/register-success");
     } catch (err: unknown) {
-      console.log(err)
+      console.log(err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('Registration failed: ' + err);
+        setError("Registration failed: " + err);
       }
     }
   };
@@ -33,7 +33,9 @@ export default function RegisterPage() {
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block mb-1">Name</label>
+          <label htmlFor="name" className="block mb-1">
+            Name
+          </label>
           <input
             type="text"
             id="name"
@@ -44,7 +46,9 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label htmlFor="email" className="block mb-1">Email</label>
+          <label htmlFor="email" className="block mb-1">
+            Email
+          </label>
           <input
             type="email"
             id="email"
@@ -55,7 +59,9 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label htmlFor="studentId" className="block mb-1">Student ID</label>
+          <label htmlFor="studentId" className="block mb-1">
+            Student ID
+          </label>
           <input
             type="text"
             id="studentId"
@@ -66,7 +72,9 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label htmlFor="password" className="block mb-1">Password</label>
+          <label htmlFor="password" className="block mb-1">
+            Password
+          </label>
           <input
             type="password"
             id="password"
@@ -76,10 +84,13 @@ export default function RegisterPage() {
             className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        >
           Register
         </button>
       </form>
     </div>
   );
-};
+}

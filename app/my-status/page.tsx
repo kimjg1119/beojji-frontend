@@ -1,37 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axiosInstance from "../../utils/axios";
+"use client";
 
-interface UserStatus {
-  name: string;
-  email: string;
-  studentId: string;
-  role: string;
-}
+import { apiMyUser } from "@/lib/api";
+import { use } from "react";
 
-const MyStatus: React.FC = () => {
-  const [status, setStatus] = useState<UserStatus | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchStatus = async () => {
-      try {
-        const response = await axiosInstance.get("/api/users/me");
-        setStatus(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching user status:", err);
-        setError("Failed to load user status. Please try again later.");
-        setLoading(false);
-      }
-    };
-
-    fetchStatus();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!status) return <div>No status information available.</div>;
+export default function MyStatusPage() {
+  const status = use(apiMyUser({})).data;
 
   return (
     <div className="max-w-md mx-auto mt-10">
@@ -41,7 +14,7 @@ const MyStatus: React.FC = () => {
           <label className="block text-muted-foreground text-sm font-bold mb-2">
             Name:
           </label>
-          <p className="text-foreground">{status.name}</p>
+          <p className="text-foreground">{status.username}</p>
         </div>
         <div className="mb-4 bg-accent/10 p-3 rounded">
           <label className="block text-muted-foreground text-sm font-bold mb-2">
@@ -64,6 +37,4 @@ const MyStatus: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default MyStatus;
+}

@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from 'flowbite-react';
-import { HiUserGroup, HiAcademicCap, HiClipboardList, HiChartPie } from 'react-icons/hi';
-import axiosInstance from '../../utils/axios';
-import { showErrorToast } from '../../utils/toastUtils';
+import React, { useState, useEffect } from "react";
+import { Card } from "flowbite-react";
+import {
+  HiUserGroup,
+  HiAcademicCap,
+  HiClipboardList,
+  HiChartPie,
+} from "react-icons/hi";
+import axiosInstance from "../../utils/axios";
+import { showErrorToast } from "../../utils/toastUtils";
 
 interface DashboardStats {
   totalUsers: number;
@@ -36,19 +41,19 @@ const Dashboard: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const statsResponse = await axiosInstance.get('admin/stats');
+        const statsResponse = await axiosInstance.get("admin/stats");
         setStats(statsResponse.data);
-        
+
         try {
           // const activitiesResponse = await axiosInstance.get('admin/activities');
           // setActivities(activitiesResponse.data);
         } catch (error) {
-          console.error('Error fetching activities:', error);
-          showErrorToast('Failed to load recent activities');
+          console.error("Error fetching activities:", error);
+          showErrorToast("Failed to load recent activities");
         }
       } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
-        showErrorToast('Failed to load dashboard statistics');
+        console.error("Error fetching dashboard stats:", error);
+        showErrorToast("Failed to load dashboard statistics");
       } finally {
         setLoading(false);
       }
@@ -63,7 +68,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Overview</h2>
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+        Overview
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <div className="flex items-center">
@@ -71,8 +78,12 @@ const Dashboard: React.FC = () => {
               <HiUserGroup className="w-6 h-6" />
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Total Users</h3>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalUsers}</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Total Users
+              </h3>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {stats.totalUsers}
+              </p>
             </div>
           </div>
         </Card>
@@ -82,8 +93,12 @@ const Dashboard: React.FC = () => {
               <HiAcademicCap className="w-6 h-6" />
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Total Classes</h3>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalClasses}</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Total Classes
+              </h3>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {stats.totalClasses}
+              </p>
             </div>
           </div>
         </Card>
@@ -93,8 +108,12 @@ const Dashboard: React.FC = () => {
               <HiClipboardList className="w-6 h-6" />
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Total Problems</h3>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalProblems}</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Total Problems
+              </h3>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {stats.totalProblems}
+              </p>
             </div>
           </div>
         </Card>
@@ -104,14 +123,20 @@ const Dashboard: React.FC = () => {
               <HiChartPie className="w-6 h-6" />
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Total Submissions</h3>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalSubmissions}</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Total Submissions
+              </h3>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {stats.totalSubmissions}
+              </p>
             </div>
           </div>
         </Card>
       </div>
-      
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mt-8">Recent Activity</h2>
+
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mt-8">
+        Recent Activity
+      </h2>
       <Card>
         <div className="flow-root">
           {activities.length > 0 ? (
@@ -135,7 +160,9 @@ const Dashboard: React.FC = () => {
               ))}
             </ul>
           ) : (
-            <p className="text-gray-500 dark:text-gray-400">No recent activities or failed to load activities.</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              No recent activities or failed to load activities.
+            </p>
           )}
         </div>
       </Card>

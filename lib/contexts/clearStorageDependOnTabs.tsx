@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { IS_DEBUG, KEY_TAB_COUNT } from '@/lib/config';
-import { useEffect } from 'react';
+import { IS_DEBUG, KEY_TAB_COUNT } from "@/lib/config";
+import { useEffect } from "react";
 
 /**
  * 활성 탭이 모두 hide되는 순간에 localStorage를 비웁니다.
@@ -11,26 +11,29 @@ import { useEffect } from 'react';
  * @param param0
  * @returns
  */
-export default function ClearStorageDependOnTabs({ keys, children }: React.PropsWithChildren<{ keys : Array<string> }>) {
+export default function ClearStorageDependOnTabs({
+  keys,
+  children,
+}: React.PropsWithChildren<{ keys: Array<string> }>) {
   useEffect(() => {
-    const prevCount = Number(localStorage.getItem(KEY_TAB_COUNT) || '0');
+    const prevCount = Number(localStorage.getItem(KEY_TAB_COUNT) || "0");
     localStorage.setItem(KEY_TAB_COUNT, String(prevCount + 1));
 
     const callback = () => {
-      const count = Number(localStorage.getItem(KEY_TAB_COUNT) || '0');
+      const count = Number(localStorage.getItem(KEY_TAB_COUNT) || "0");
 
       // Since React dev mode render twice;
       const unit = IS_DEBUG ? 2 : 1;
       localStorage.setItem(KEY_TAB_COUNT, String(count - unit));
 
       if (count <= unit) {
-        keys.forEach((key => localStorage.removeItem(key)))
+        keys.forEach((key) => localStorage.removeItem(key));
       }
     };
 
-    window.addEventListener('pagehide', callback);
+    window.addEventListener("pagehide", callback);
 
-    return () => window.removeEventListener('pagehide', callback); // Cleanup
+    return () => window.removeEventListener("pagehide", callback); // Cleanup
   }, []);
 
   return children;

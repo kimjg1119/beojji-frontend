@@ -1,7 +1,9 @@
 import Header from "./header";
 import Footer from "./footer";
 
-export default function TopLayout({ children } : React.PropsWithChildren<unknown>) {
+export default function TopLayout({
+  children,
+}: React.PropsWithChildren<unknown>) {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />

@@ -7,7 +7,10 @@ import TopLayout from "@/components/layout/topLayout";
 import { ThemeProvider } from "@/lib/contexts/ThemeContext";
 import { KEY_USER_PROFILE } from "@/lib/config";
 
-const UserRoleContextProvider = dynamic(() => import("@/lib/contexts/userRoleContext"), { ssr: false })
+const UserRoleContextProvider = dynamic(
+  () => import("@/lib/contexts/userRoleContext"),
+  { ssr: false },
+);
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,14 +40,12 @@ export default function RootLayout({
       >
         <ClearStorageDependOnTabs keys={[KEY_USER_PROFILE]}>
           <UserRoleContextProvider>
-              <ThemeProvider>
-                <TopLayout>{children}</TopLayout>
-              </ThemeProvider>
-            </UserRoleContextProvider>
+            <ThemeProvider>
+              <TopLayout>{children}</TopLayout>
+            </ThemeProvider>
+          </UserRoleContextProvider>
         </ClearStorageDependOnTabs>
       </body>
     </html>
   );
 }
-
-
